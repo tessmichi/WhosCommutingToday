@@ -1,0 +1,8 @@
+{
+  "azureFunctions.deploySubpath": "API",
+  "azureFunctions.postDeployTask": "npm install (functions)",
+  "azureFunctions.projectLanguage": "TypeScript",
+  "azureFunctions.projectRuntime": "~4",
+  "azureFunctions.preDeployTask": "npm prune (functions)",
+  "editor.tabSize": 2
+}
