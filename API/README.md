@@ -1,11 +1,5 @@
 # API
 
-
-## Temporary deployment link
-
-https://whoscommutingtoday.azurewebsites.net/
-
-
 ## Usable paths
 
 <table>
