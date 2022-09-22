@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import * as db from "../lib/azure-cosmosdb-mongodb";
+import * as utils from "../lib/utils";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -10,16 +11,21 @@ const httpTrigger: AzureFunction = async function (
   try {
     context.log("HTTP trigger function processed a request.");
 
-    // create 1 db connection for all functions
     await db.init();
 
-    if (req?.body?.document) {
-      const insertOneResponse = await db.addItem(req.body.document);
-      response = {
-        documentResponse: insertOneResponse,
-      };
+    if (req?.body) {
+      const data = req.body;
+
+      if (typeof data.name !== "string" || 
+          typeof data.startDate !== "string" ||
+          typeof data.endDate !== "string") {
+        throw Error("Invalid document");
+      }
+
+      const item = await db.addItem(req.body);
+      response = utils.formatResult(item);
     } else {
-      throw Error("No document found");
+      throw Error("Invalid document");
     }
 
     context.res = {
@@ -39,13 +45,3 @@ const httpTrigger: AzureFunction = async function (
 };
 
 export default httpTrigger;
-
-/*
-{
-    "document": {
-        "name": "Alex",
-        "startDate": "2022-09-12",
-        "endDate": "2022-09-14"
-    }
-}
-*/

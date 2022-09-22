@@ -1,6 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import * as db from "../lib/azure-cosmosdb-mongodb";
-import * as utils from "../lib/utils"
+import * as utils from "../lib/utils";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   let response = null;
@@ -12,13 +12,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     await db.init();
       
     if (req?.body?.date) {
-      const items = await db.findItems({
-        date: utils.formatDate(new Date(req.body.date)),
-      })
+      const items = await db.findByDate(utils.formatDate(req.body.date));
 
-      response = {
-        documentResponse: items,
-      };
+      response = items.map(utils.formatResult);
     } else {
       throw Error("No date found");
     }

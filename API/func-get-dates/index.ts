@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import * as db from "../lib/azure-cosmosdb-mongodb";
+import * as utils from "../lib/utils";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   let response = null;
@@ -11,13 +12,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     await db.init();
       
     if (req?.body?.name) {
-      const items = await db.findItems({
-        name: req.body.name,
-      })
+      const item = await db.findOneByName(req.body.name);
+      if (item)
+        response = utils.formatResult(item);
+      else
+        response = "Not found"
 
-      response = {
-        documentResponse: items,
-      };
     } else {
       throw Error("No name found");
     }

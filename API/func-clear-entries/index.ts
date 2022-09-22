@@ -10,9 +10,7 @@ const timerTrigger: AzureFunction = async function (
 
     // create 1 db connection for all functions
     await db.init();
-
-    const items = await db.clearItems();
-    console.log(`Deleted ${items.length} entries.`);
+    await db.clearItems();
   } catch (err) {
     let message = "Unknown error";
     if (err instanceof Error) {
