@@ -2,6 +2,7 @@ import * as React from "react";
 import { PresenceCalendar } from "./PresenceCalendar";
 import { usePresenceContext } from "./PresenceDataProvider";
 import { PresenceList } from "./PresenceList";
+import { Flex } from "@fluentui/react-northstar";
 
 export const Tab: React.FunctionComponent = () => {
   const presenceContextValues = usePresenceContext();
@@ -9,18 +10,9 @@ export const Tab: React.FunctionComponent = () => {
   console.log("presenceData", presenceData);
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        minWidth: "1rem",
-        paddingLeft: "0.25rem",
-        paddingTop: "1rem",
-      }}
-    >
+    <Flex padding="padding.medium" space="evenly">
       <PresenceCalendar />
       <PresenceList />
-    </div>
+    </Flex>
   );
 };

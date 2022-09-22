@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 
 export const PresenceContext = React.createContext<
   undefined | PresenceContextValues
@@ -41,16 +42,22 @@ export function PresenceDataProvider({ children }: Props) {
     setPresenceData(presenceData);
   }
 
-  function setDateRange(dateRange: IDateRange) {
-    // API GET call for persons
-    setPresenceData({
-      range: dateRange,
-      people: [
-        { name: "user test" },
-        { name: "user test 2" },
-        { name: "user test 3" },
-      ],
-    });
+  function setDateRange(date: IDateRange) {
+    const stringDate = new Date(date.startDate).toLocaleDateString();
+    axios
+      .get("https://whosinoffice.azurewebsites.net/api/func-get-users", {
+        params: {
+          date: stringDate,
+        },
+        headers: { "Access-Control-Allow-Origin": "*" },
+      })
+      .then((result) => {
+        setPresenceData({
+          range: date,
+          people: [],
+        });
+        console.log("result", result);
+      });
   }
 
   function addUserToDateRange(name: string, dateRange: IDateRange): void {
@@ -60,6 +67,7 @@ export function PresenceDataProvider({ children }: Props) {
 
   function removeUserFromDateRange(name: string, dateRange: IDateRange): void {
     console.log("remove user");
+    //TO BE DONE
   }
 
   // const currentUserIsComing = people.includes()
