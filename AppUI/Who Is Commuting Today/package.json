@@ -1,0 +1,19 @@
+{
+  "name": "Who Is Commuting Today",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@microsoft/teamsfx-cli": "1.*"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fluentui/react": "^8.96.0",
+    "@fluentui/react-components": "^9.3.1",
+    "@fluentui/react-provider": "^9.1.2",
+    "axios": "^0.27.2"
+  }
+}
